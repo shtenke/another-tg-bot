@@ -16,14 +16,17 @@ def handle_help(message):
 
 @bot.message_handler(commands=['show_city'])
 def handle_show_city(message):
-    city_name = message.text.split()[-1]
+    city_name = message.text.split()[1:]
     # Реализуй отрисовку города по запросу
+    manager.create_grapf('map.png',city_name)
+    with open('map.png','rb') as file:
+        bot.send_photo(message.chat.id,file)
 
 
 @bot.message_handler(commands=['remember_city'])
 def handle_remember_city(message):
     user_id = message.chat.id
-    city_name = message.text.split()[-1]
+    city_name = message.text.split()
     if manager.add_city(user_id, city_name):
         bot.send_message(message.chat.id, f'Город {city_name} успешно сохранен!')
     else:

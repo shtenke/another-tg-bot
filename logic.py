@@ -4,7 +4,8 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
-
+import random
+from random import choice
 
 class DB_Map():
     def __init__(self, database):
@@ -59,8 +60,18 @@ class DB_Map():
             return coordinates
 
     def create_grapf(self, path, cities):
-        pass
-        
+        colors = ['white', 'black', 'gray', 'brown', 'red', 'orange', 'yellow', 'lime', 'green', 'cyan', 'blue', 'navy', 'magenta', 'purple', 'violet', 'pink']
+        ax = plt.axes(projection=ccrs.PlateCarree())
+        ax.stock_img()
+        for city in cities:
+            coords = self.get_coordinates(city)
+            print(coords)
+            plt.plot([coords[1]], [coords[0]],
+                color=choice(colors), linewidth=2, marker='o',
+                transform=ccrs.PlateCarree(),  # Используем геодезическую проекцию для преобразования координат
+                )
+        plt.savefig(path)
+        plt.close()
     def draw_distance(self, city1, city2):
         pass
 
